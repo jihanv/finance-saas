@@ -11,13 +11,22 @@ app
       message: "Hello Next.js!",
     });
   })
-  .get("hello/:test", (c) => {
-    const test = c.req.param("test");
-    return c.json({
-      message: "Hello World",
-      test: test,
-    });
-  });
+  .get(
+    "hello/:test",
+    zValidator(
+      "param",
+      z.object({
+        test: z.string,
+      })
+    ),
+    (c) => {
+      const { test } = c.req.valid("param");
+      return c.json({
+        message: "Hello World",
+        test: test,
+      });
+    }
+  );
 
 export const GET = handle(app);
 export const POST = handle(app);
