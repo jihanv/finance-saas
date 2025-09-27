@@ -4,6 +4,13 @@ import React from 'react'
 
 export default function HeaderLogo() {
     return (
-        <Link href="/"><Image src="/logo.svg" height={100} width={100} alt="Logo" /></Link>
+        <Link href="/">
+            <div className='items-center hidden lg:flex'>
+                <Image src="/logo.svg" height={28} width={28} alt="Logo" />
+                <p className='font-semibold text-white text-2xl ml-2.5'>
+                    Finance
+                </p>
+            </div>
+        </Link>
     )
 }
