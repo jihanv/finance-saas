@@ -20,6 +20,7 @@ export default function NavButton({ href, label, isActive }: NavButtonProps) {
                 isActive ? "bg-white/10 text-white" : "bg-transparent"
             )}>
             <Link href={href}>{label}</Link>
+
         </Button>
     )
 }
