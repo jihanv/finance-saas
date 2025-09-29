@@ -51,13 +51,14 @@ export default function Navigation() {
             <Sheet
                 open={isOpen}
                 onOpenChange={setIsOpen}>
-                <SheetTrigger>
+
+                {/* Need to set this asChild because of the nested button */}
+                <SheetTrigger asChild>
                     <Button
                         variant="outline"
                         size="sm"
                         className="font-normal bg-white/10 hover:bg-white/20 hover:text-white border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-white focus:bg-white/30 transition">
-                        <Menu className='size-4' />
-
+                        <Menu className='h-4 w-4' />
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className='px-2'>
