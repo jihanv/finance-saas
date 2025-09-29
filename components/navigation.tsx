@@ -6,6 +6,8 @@ import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { useMedia } from "react-use"
 import { Button } from './ui/button';
 import { Menu } from "lucide-react"
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+
 
 
 const routes = [
@@ -62,11 +64,14 @@ export default function Navigation() {
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className='px-2'>
+                    <VisuallyHidden><h2>Navigation Menu</h2></VisuallyHidden>
                     <nav className='flex flex-col gap-y-2 pt-6'>
                         {routes.map((route) => (
                             <Button
                                 key={route.href}
                                 variant={route.href === pathname ? "secondary" : "ghost"}
+
+                                // Use onClick instead of Link, because link will not close the drawer
                                 onClick={() => onClick(route.href)}>{route.label}</Button>
                         ))}
                     </nav>
