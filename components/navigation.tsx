@@ -2,7 +2,7 @@
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import NavButton from './nav-button'
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from './ui/sheet';
 import { useMedia } from "react-use"
 import { Button } from './ui/button';
 import { Menu } from "lucide-react"
@@ -64,7 +64,7 @@ export default function Navigation() {
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className='px-2'>
-                    <VisuallyHidden><h2>Navigation Menu</h2></VisuallyHidden>
+                    <VisuallyHidden><SheetTitle>Navigation Menu</SheetTitle></VisuallyHidden>
                     <nav className='flex flex-col gap-y-2 pt-6'>
                         {routes.map((route) => (
                             <Button
@@ -72,7 +72,8 @@ export default function Navigation() {
                                 variant={route.href === pathname ? "secondary" : "ghost"}
 
                                 // Use onClick instead of Link, because link will not close the drawer
-                                onClick={() => onClick(route.href)}>{route.label}</Button>
+                                onClick={() => onClick(route.href)}
+                                className='w-full justify-start'>{route.label}</Button>
                         ))}
                     </nav>
                 </SheetContent>

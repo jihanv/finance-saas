@@ -1,3 +1,4 @@
+import { UserButton } from "@clerk/nextjs";
 import HeaderLogo from "./header-logo";
 import Navigation from "./navigation";
 
@@ -9,6 +10,7 @@ export default function Header() {
                     <div className="flex items-center lg:gap-x-16">
                         <HeaderLogo />
                         <Navigation />
+                        <UserButton />
                     </div>
                 </div>
             </div>
