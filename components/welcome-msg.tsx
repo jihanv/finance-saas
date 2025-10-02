@@ -4,6 +4,9 @@ import { useUser } from "@clerk/nextjs"
 
 export default function WelcomeMsg() {
 
+
+    // useUser provides the currently signed-in user's data (from Clerk)
+    // along with loading state (isLoaded) so we can safely access user info.
     const { user, isLoaded } = useUser()
     return (
         <div className="space-y-2 mb-4">
