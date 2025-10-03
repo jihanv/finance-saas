@@ -2,10 +2,8 @@
 
 import { Hono } from "hono";
 
-const app = new Hono();
-
 //That means: “when someone asks for / in this router, return empty accounts.”
-app.get("/", (c) => {
+const app = new Hono().get("/", (c) => {
   return c.json({ accounts: [] });
 });
 
