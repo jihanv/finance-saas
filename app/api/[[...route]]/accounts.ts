@@ -6,8 +6,18 @@ import { db } from "@/db/drizzle";
 // Import the "accounts" table definition from your schema
 import { accounts } from "@/db/schema";
 
+import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
+
 // Create a new Hono app and define a GET handler for "/"
-const app = new Hono().get("/", async (c) => {
+const app = new Hono().get("/", clerkMiddleware(), async (c) => {
+  // Get logged in user info
+  const auth = getAuth(c);
+
+  // If not authenticated, return error
+  if (!auth?.userId) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
   // Query the database:
   // select "id" and "name" columns from the "accounts" table
   const data = await db
