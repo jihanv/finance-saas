@@ -9,6 +9,7 @@ import { accounts } from "@/db/schema";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 
 import { HTTPException } from "hono/http-exception";
+import { eq } from "drizzle-orm";
 
 // Create a new Hono app and define a GET handler for "/"
 const app = new Hono().get("/", clerkMiddleware(), async (c) => {
@@ -29,7 +30,8 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
       id: accounts.id,
       name: accounts.name,
     })
-    .from(accounts);
+    .from(accounts)
+    .where(eq(accounts.userId, auth.userId));
 
   // Return the query results as JSON to the client
   return c.json({ data });
