@@ -23,27 +23,3 @@ export const POST = handle(app);
 // Optional: export a type for inference in client or server code.
 // This helps with type-safe API calls using libraries like hono/client.
 export type AppType = typeof routes;
-
-// 2:17 create frontend hook
-
-// Deleted Code
-
-// app.get("/hello", clerkMiddleware(), (c) => {
-//   const auth = getAuth(c);
-
-//   // Check if user is authorized
-//   if (!auth?.userId) {
-//     return c.json({
-//       error: "Unauthorized",
-//     });
-//   }
-
-//   return c.json({
-//     message: "Hello Next.js!",
-//   });
-// });
-//
-
-// A client requests /api/accounts.
-// Next.js hands the request to your route.ts → your app.
-// Your main Hono app looks for a matching route:
