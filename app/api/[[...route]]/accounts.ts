@@ -8,6 +8,8 @@ import { accounts } from "@/db/schema";
 
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 
+import { HTTPException } from "hono/http-exception";
+
 // Create a new Hono app and define a GET handler for "/"
 const app = new Hono().get("/", clerkMiddleware(), async (c) => {
   // Get logged in user info
@@ -15,7 +17,9 @@ const app = new Hono().get("/", clerkMiddleware(), async (c) => {
 
   // If not authenticated, return error
   if (!auth?.userId) {
-    return c.json({ error: "Unauthorized" }, 401);
+    throw new HTTPException(401, {
+      res: c.json({ error: "Unauthorized" }, 401),
+    });
   }
 
   // Query the database:
