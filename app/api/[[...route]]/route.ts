@@ -10,6 +10,14 @@ export const runtime = "edge";
 // Create a new Hono app instance
 const app = new Hono().basePath("/api");
 
+// Hono automatically calls .onError() if any route throws an error
+// app.onError((err, c) => {
+//   if (err instanceof HTTPException) {
+//     return err.getResponse();
+//   }
+//   return c.json({ error: "Internal Server Error" }, 500);
+// });
+
 // Mount the /accounts router (imported from ./accounts).
 // This means any route defined inside ./accounts will be prefixed with /api/accounts
 const routes = app.route("/accounts", accounts);

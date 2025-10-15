@@ -8,19 +8,17 @@ import { accounts } from "@/db/schema";
 
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 
-import { HTTPException } from "hono/http-exception";
 import { eq } from "drizzle-orm";
 
 // Create a new Hono app and define a GET handler for "/"
+// clerkMiddleware() runs before the route handler and adds authentication info to `c` (Hono's context).
+// It doesn't create `c`—it just enhances it so getAuth(c) can access the logged-in user's data.
 const app = new Hono().get("/", clerkMiddleware(), async (c) => {
   // Get logged in user info
   const auth = getAuth(c);
 
-  // If not authenticated, return error
   if (!auth?.userId) {
-    throw new HTTPException(401, {
-      res: c.json({ error: "Unauthorized" }, 401),
-    });
+    return c.json({ error: "Unauthorized" }, 401);
   }
 
   // Query the database:
