@@ -56,13 +56,16 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const data = await db.insert(accounts).values({
-        id: createId(),
-        userId: auth.userId,
-        ...values,
-      });
+      const data = await db
+        .insert(accounts)
+        .values({
+          id: createId(),
+          userId: auth.userId,
+          ...values,
+        })
+        .returning();
 
-      return c.json({});
+      return c.json({ data: data[0] });
     }
   );
 // Export the app so it can be mounted in your main router
