@@ -4,11 +4,15 @@ import { Hono } from "hono";
 import { db } from "@/db/drizzle";
 
 // Import the "accounts" table definition from your schema
-import { accounts } from "@/db/schema";
+import { accounts, insertAccountSchema } from "@/db/schema";
 
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 
 import { eq } from "drizzle-orm";
+
+import { zValidator } from "@hono/zod-validator";
+
+import { createId } from "@paralleldrive/cuid2";
 
 // Create a new Hono app and define a GET handler for "/"
 // clerkMiddleware() runs before the route handler and adds authentication info to `c` (Hono's context).
@@ -35,14 +39,31 @@ const app = new Hono()
     // Return the query results as JSON to the client
     return c.json({ data });
   })
-  .post("/", clerkMiddleware(), async (c) => {
-    const auth = getAuth(c);
+  .post(
+    "/",
+    clerkMiddleware(),
+    zValidator(
+      "json",
+      insertAccountSchema.pick({
+        name: true,
+      })
+    ),
+    async (c) => {
+      const auth = getAuth(c);
+      const values = c.req.valid("json");
 
-    if (!auth?.userId) {
-      return c.json({ error: "Unauthorized" }, 401);
+      if (!auth?.userId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      const data = await db.insert(accounts).values({
+        id: createId(),
+        userId: auth.userId,
+        ...values,
+      });
+
+      return c.json({});
     }
-
-    return c.json({});
-  });
+  );
 // Export the app so it can be mounted in your main router
 export default app;
