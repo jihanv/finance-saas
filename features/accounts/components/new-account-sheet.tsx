@@ -10,7 +10,7 @@ import React from 'react'
 
 export default function NewAccountSheet() {
 
-    const { isOpen, onOpen, onClose } = useNewAccount()
+    const { isOpen, onClose } = useNewAccount()
     return (
         <>
             <Sheet open={isOpen} onOpenChange={onClose}>
