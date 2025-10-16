@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/sheet'
 import { useNewAccount } from '@/stores/useNewAccountStore'
 import React from 'react'
+import AccountForm from './account-form'
 
 export default function NewAccountSheet() {
 
@@ -23,6 +24,7 @@ export default function NewAccountSheet() {
                             Create a new account to track your transactions.
                         </SheetDescription>
                     </SheetHeader>
+                    <AccountForm onSubmit={() => { }} disabled={false}></AccountForm>
                 </SheetContent>
             </Sheet>
         </>
