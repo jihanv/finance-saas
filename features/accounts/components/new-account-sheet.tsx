@@ -14,7 +14,7 @@ export default function NewAccountSheet() {
                 <SheetContent className='space-y-4'>
                     <SheetHeader>
                         <SheetTitle>
-                            New Title
+                            New Account
                         </SheetTitle>
                         <SheetDescription>
                             Create a new account to track your transactions.
