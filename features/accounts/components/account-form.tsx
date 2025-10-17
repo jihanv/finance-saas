@@ -26,7 +26,7 @@ const formSchema = insertAccountSchema.pick({
 // Take the Zod schema called formSchema
 // Extract the TypeScript input type from it
 // Store that as a reusable type called FormValues
-type FormValues = z.input<typeof formSchema>
+export type FormValues = z.input<typeof formSchema>
 
 
 type Props = {
@@ -43,7 +43,7 @@ export default function AccountForm({ id, defaultValues, onSubmit, onDelete, dis
     //Pre-fills the form (for example, when editing an existing account)
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
-        defaultValues: defaultValues
+        defaultValues: defaultValues ?? { name: "" }
     })
 
     const handleSubmit = (values: FormValues) => {
