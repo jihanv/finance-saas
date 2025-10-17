@@ -17,10 +17,15 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
+
+// Create a new schema that includes only the name field from the original schema.
 const formSchema = insertAccountSchema.pick({
     name: true
 })
 
+// Take the Zod schema called formSchema
+// Extract the TypeScript input type from it
+// Store that as a reusable type called FormValues
 type FormValues = z.input<typeof formSchema>
 
 
@@ -33,13 +38,16 @@ type Props = {
 }
 export default function AccountForm({ id, defaultValues, onSubmit, onDelete, disabled }: Props) {
 
+    //Creates a form that follows the FormValues type (so this form knows what fields it has)
+    //Uses your Zod schema to validate the form
+    //Pre-fills the form (for example, when editing an existing account)
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: defaultValues
     })
 
     const handleSubmit = (values: FormValues) => {
-        console.log({ values })
+        onSubmit(values)
     }
 
     const handleDelete = () => {
@@ -47,16 +55,20 @@ export default function AccountForm({ id, defaultValues, onSubmit, onDelete, dis
     }
     return (
         <>
+            {/*{...form} Pass everything from the form object into the <Form> component */}
             <Form {...form}>
                 <form
-                    onSubmit={() => form.handleSubmit(handleSubmit)}
+                    onSubmit={form.handleSubmit(handleSubmit)}
                     className='space-y-4 pt-4'
                 >
                     <FormField
                         name="name"
                         control={form.control}
+                        // `render` tells how to display this field.
+                        // It gives us `field`, which contains props like value and onChange.
+                        // We spread `{...field}` into our <Input> so it's connected to react-hook-form.
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem >
                                 <FormLabel>
                                     Name
                                 </FormLabel>
@@ -70,6 +82,20 @@ export default function AccountForm({ id, defaultValues, onSubmit, onDelete, dis
                             </FormItem>
                         )}>
                     </FormField>
+                    <Button
+                        className='w-full'
+                        disabled={disabled}>
+                        {id ? "Save Changes" : "Create Account"}
+                    </Button>
+                    {!!id && <Button
+                        type="button"
+                        disabled={disabled}
+                        onClick={handleDelete}
+                        className='w-full'
+                        variant="outline">
+                        <Trash className='size-4 mr-2'></Trash>
+                        Delete Account
+                    </Button>}
 
                 </form>
             </Form>

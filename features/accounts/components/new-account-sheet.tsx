@@ -15,8 +15,8 @@ export default function NewAccountSheet() {
     return (
         <>
             <Sheet open={isOpen} onOpenChange={onClose}>
-                <SheetContent className='space-y-4'>
-                    <SheetHeader>
+                <SheetContent className="p-6 space-y-4">
+                    <SheetHeader className="p-0">
                         <SheetTitle>
                             New Account
                         </SheetTitle>
