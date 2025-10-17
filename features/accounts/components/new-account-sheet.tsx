@@ -8,13 +8,16 @@ import {
 import { useNewAccount } from '@/stores/useNewAccountStore'
 import React from 'react'
 import AccountForm, { FormValues } from './account-form'
+import { useCreateAccount } from '../api/use-create-account'
 
 export default function NewAccountSheet() {
 
     const { isOpen, onClose } = useNewAccount()
 
+    const mutation = useCreateAccount();
+
     const onSubmit = (values: FormValues) => {
-        console.log({ values })
+        mutation.mutate(values)
     }
     return (
         <>
