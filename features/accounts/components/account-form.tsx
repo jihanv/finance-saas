@@ -38,7 +38,7 @@ type Props = {
 }
 export default function AccountForm({ id, defaultValues, onSubmit, onDelete, disabled }: Props) {
 
-    //Creates a form that follows the FormValues type (so this form knows what fields it has)
+    //Creates a form using react-hook-form that follows the FormValues type (so this form knows what fields it has)
     //Uses your Zod schema to validate the form
     //Pre-fills the form (for example, when editing an existing account)
     const form = useForm<FormValues>({
