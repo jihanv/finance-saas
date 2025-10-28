@@ -35,7 +35,7 @@ export default function NewAccountSheet() {
                             Create a new account to track your transactions.
                         </SheetDescription>
                     </SheetHeader>
-                    <AccountForm onSubmit={onSubmit} disabled={false}></AccountForm>
+                    <AccountForm onSubmit={onSubmit} disabled={mutation.isPending}></AccountForm>
                 </SheetContent>
             </Sheet>
         </>
