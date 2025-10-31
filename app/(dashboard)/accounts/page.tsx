@@ -5,12 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useNewAccount } from '@/stores/useNewAccountStore'
 import { Plus } from 'lucide-react'
 import React from 'react'
-import { columns, Payment } from './columns'
+import { columns } from './columns'
 import { DataTable } from '@/components/data-table'
 
 export default function Accounts() {
 
-    const data: Payment[] = [
+    const data = [
         {
             id: "728ed52f",
             amount: 100,

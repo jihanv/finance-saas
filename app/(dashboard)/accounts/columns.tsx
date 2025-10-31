@@ -1,20 +1,20 @@
 "use client"
 
+import { InferResponseType } from "hono"
+import { client } from "@/lib/hono"
 import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 
 import { Checkbox } from "@/components/ui/checkbox"
+
+// Adding "200" is necessary to get only the data and not error messages 
+export type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0]
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
-}
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<ResponseType>[] = [
     {
         id: "select",
         header: ({ table }) => (
