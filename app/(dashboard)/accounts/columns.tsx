@@ -8,7 +8,10 @@ import { ArrowUpDown } from "lucide-react"
 
 import { Checkbox } from "@/components/ui/checkbox"
 
+// Infer the type of an API response from your server routes.
 // Adding "200" is necessary to get only the data and not error messages 
+//["data"][0]
+// Then, ["data"] accesses the data field of that response(which is likely an array), and[0] takes the type of one element of that array.
 export type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0]
 
 // This type is used to define the shape of our data.
@@ -50,10 +53,6 @@ export const columns: ColumnDef<ResponseType>[] = [
                 </Button>
             )
         },
-    },
-    {
-        accessorKey: "amount",
-        header: "Amount",
     },
 
 ]
