@@ -9,6 +9,7 @@ import React from 'react'
 import { columns } from './columns'
 import { DataTable } from '@/components/data-table'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useBulkDeleteAccounts } from '@/features/accounts/api/use-bulk-delete'
 
 export default function Accounts() {
 
@@ -17,7 +18,9 @@ export default function Accounts() {
     const newAccounts = useNewAccount()
     const accountsQuery = useGetAccounts() // fetches the list of existing accounts from the backend.
     const accounts = accountsQuery.data || [] // ensures your table always receives a valid array to render, even before the data is loaded.
+    const deleteAccounts = useBulkDeleteAccounts()
 
+    const isDisabled = accountsQuery.isLoading || deleteAccounts.isPending
     // Render loading 
     if (accountsQuery.isLoading) {
         return (
@@ -50,8 +53,11 @@ export default function Accounts() {
                         columns={columns}
                         data={accounts}
                         filterKey="name"
-                        onDelete={() => { }}
-                        disabled={false} />
+                        onDelete={(row) => {
+                            const ids = row.map((r) => r.original.id)
+                            deleteAccounts.mutate({ ids })
+                        }}
+                        disabled={isDisabled} />
                 </CardContent>
             </Card>
         </div>
