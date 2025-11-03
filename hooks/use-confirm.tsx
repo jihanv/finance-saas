@@ -7,7 +7,7 @@ export type UseConfirmProps = {
     message: string
 }
 
-export default function useConfirm({ title, message }: UseConfirmProps)
+export default function useConfirm(title: string, message: string)
     : [() => JSX.Element, () => Promise<unknown>] {
 
     const [promise, setPromise] = useState<{ resolve: (value: boolean) => void } | null>(null)
@@ -55,3 +55,5 @@ export default function useConfirm({ title, message }: UseConfirmProps)
 
     return [ConfirmationDialog, confirm]
 }
+
+// Source: https://medium.com/@kch062522/useconfirm-a-custom-react-hook-to-prompt-confirmation-before-action-f4cb746ebd4e
