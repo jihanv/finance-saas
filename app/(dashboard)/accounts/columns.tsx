@@ -7,6 +7,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 
 import { Checkbox } from "@/components/ui/checkbox"
+import Actions from "./actions"
 
 // Infer the type of an API response from your server routes.
 // Adding "200" is necessary to get only the data and not error messages 
@@ -54,5 +55,9 @@ export const columns: ColumnDef<ResponseType>[] = [
             )
         },
     },
+    {
+        id: "actions",
+        cell: ({ row }) => <Actions id={row.original.id} />
+    }
 
 ]
