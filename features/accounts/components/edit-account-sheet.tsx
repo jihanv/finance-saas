@@ -42,15 +42,15 @@ export default function EditAccountSheet() {
                             Edit Account
                         </SheetTitle>
                         <SheetDescription>
-                            Create a new account to track your transactions.
+                            Edit an existing account
                         </SheetDescription>
                     </SheetHeader>
                     {isLoading ?
                         (<div className='absolute inset-0 items-center justify-center'>
                             <Loader2 className=" size-4 text-muted-foreground animate-spin" />
-                        </div>) : ""
+                        </div>) : (<AccountForm id={id} onSubmit={onSubmit} disabled={mutation.isPending} defaultValues={defaultValues}></AccountForm>)
                     }
-                    <AccountForm onSubmit={onSubmit} disabled={mutation.isPending} defaultValues={defaultValues}></AccountForm>
+
                 </SheetContent>
             </Sheet>
         </>
