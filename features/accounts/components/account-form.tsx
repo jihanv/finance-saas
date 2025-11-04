@@ -46,6 +46,12 @@ export default function AccountForm({ id, defaultValues, onSubmit, onDelete, dis
         defaultValues: defaultValues ?? { name: "" }
     })
 
+    React.useEffect(() => {
+        if (defaultValues) {
+            form.reset(defaultValues);
+        }
+    }, [defaultValues, form]);
+
     const handleSubmit = (values: FormValues) => {
         onSubmit(values)
     }
