@@ -11,6 +11,8 @@ import { useOpenAccount } from '@/stores/useOpenAccount'
 import { useGetAccount } from '../api/use-get-account'
 import { useEditAccount } from '../api/use-edit-account'
 import { useDeleteAccount } from '../api/use-delete-account'
+import useConfirm from '@/hooks/use-confirm'
+
 
 import { Loader2 } from 'lucide-react'
 
@@ -21,7 +23,7 @@ export default function EditAccountSheet() {
     const accountQuery = useGetAccount(id)
     const editMutation = useEditAccount(id)
     const deleteMutation = useDeleteAccount(id)
-
+    const [ConfirmationDialog, confirm] = useConfirm("Are you sure?", "You are about to delete this account.")
     const isPending = editMutation.isPending || deleteMutation.isPending
 
 
@@ -35,11 +37,23 @@ export default function EditAccountSheet() {
         })
     }
 
+    const onDelete = async () => {
+        const ok = await confirm();
+        if (ok) {
+            deleteMutation.mutate(undefined, {
+                onSuccess: () => {
+                    onClose()
+                }
+            })
+        }
+    }
+
     const defaultValues = accountQuery.data ? {
         name: accountQuery.data.name
     } : { name: "" }
     return (
         <>
+            <ConfirmationDialog />
             <Sheet open={isOpen} onOpenChange={onClose}>
                 <SheetContent className="p-6 space-y-4">
                     <SheetHeader className="p-0">
@@ -58,7 +72,7 @@ export default function EditAccountSheet() {
                             onSubmit={onSubmit}
                             disabled={isPending}
                             defaultValues={defaultValues}
-                            onDelete={() => deleteMutation.mutate()}>
+                            onDelete={onDelete}>
 
                         </AccountForm>)
                     }
