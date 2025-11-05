@@ -10,6 +10,7 @@ import AccountForm, { FormValues } from './account-form'
 import { useOpenAccount } from '@/stores/useOpenAccount'
 import { useGetAccount } from '../api/use-get-account'
 import { useEditAccount } from '../api/use-edit-account'
+import { useDeleteAccount } from '../api/use-delete-account'
 
 import { Loader2 } from 'lucide-react'
 
@@ -18,10 +19,10 @@ export default function EditAccountSheet() {
     const { isOpen, onClose, id } = useOpenAccount()
 
     const accountQuery = useGetAccount(id)
-
     const editMutation = useEditAccount(id)
+    const deleteMutation = useDeleteAccount(id)
 
-    const isPending = editMutation.isPending
+    const isPending = editMutation.isPending || deleteMutation.isPending
 
 
     const isLoading = accountQuery.isLoading
@@ -52,7 +53,14 @@ export default function EditAccountSheet() {
                     {isLoading ?
                         (<div className='absolute inset-0 items-center justify-center'>
                             <Loader2 className=" size-4 text-muted-foreground animate-spin" />
-                        </div>) : (<AccountForm id={id} onSubmit={onSubmit} disabled={isPending} defaultValues={defaultValues}></AccountForm>)
+                        </div>) : (<AccountForm
+                            id={id}
+                            onSubmit={onSubmit}
+                            disabled={isPending}
+                            defaultValues={defaultValues}
+                            onDelete={() => deleteMutation.mutate()}>
+
+                        </AccountForm>)
                     }
 
                 </SheetContent>
