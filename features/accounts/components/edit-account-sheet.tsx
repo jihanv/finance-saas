@@ -7,9 +7,10 @@ import {
 } from '@/components/ui/sheet'
 import React from 'react'
 import AccountForm, { FormValues } from './account-form'
-import { useCreateAccount } from '../api/use-create-account'
 import { useOpenAccount } from '@/stores/useOpenAccount'
 import { useGetAccount } from '../api/use-get-account'
+import { useEditAccount } from '../api/use-edit-account'
+
 import { Loader2 } from 'lucide-react'
 
 export default function EditAccountSheet() {
@@ -18,12 +19,15 @@ export default function EditAccountSheet() {
 
     const accountQuery = useGetAccount(id)
 
-    const mutation = useCreateAccount();
+    const editMutation = useEditAccount(id)
+
+    const isPending = editMutation.isPending
+
 
     const isLoading = accountQuery.isLoading
 
     const onSubmit = (values: FormValues) => {
-        mutation.mutate(values, {
+        editMutation.mutate(values, {
             onSuccess: () => {
                 onClose();
             }
@@ -48,7 +52,7 @@ export default function EditAccountSheet() {
                     {isLoading ?
                         (<div className='absolute inset-0 items-center justify-center'>
                             <Loader2 className=" size-4 text-muted-foreground animate-spin" />
-                        </div>) : (<AccountForm id={id} onSubmit={onSubmit} disabled={mutation.isPending} defaultValues={defaultValues}></AccountForm>)
+                        </div>) : (<AccountForm id={id} onSubmit={onSubmit} disabled={isPending} defaultValues={defaultValues}></AccountForm>)
                     }
 
                 </SheetContent>
