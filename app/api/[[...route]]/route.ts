@@ -28,7 +28,7 @@ const routes = app.route("/accounts", accounts);
 export const GET = handle(app);
 export const POST = handle(app);
 export const PATCH = handle(app);
-
+export const DELETE = handle(app);
 // Optional: export a type for inference in client or server code.
 // This helps with type-safe API calls using libraries like hono/client.
 export type AppType = typeof routes;
