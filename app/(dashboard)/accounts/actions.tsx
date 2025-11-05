@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useDeleteAccount } from "@/features/accounts/api/use-delete-account"
 import useConfirm from "@/hooks/use-confirm"
 import { useOpenAccount } from "@/stores/useOpenAccount"
-import { Delete, Edit, MoreHorizontal } from "lucide-react"
+import { Edit, MoreHorizontal, Trash } from "lucide-react"
 
 type Props = {
     id: string,
@@ -42,8 +42,8 @@ export default function Actions({ id }: Props) {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         disabled={deleteMutation.isPending}
-                        onClick={() => handleDelete}>
-                        <Delete className="size-4 mr-2" />
+                        onClick={() => handleDelete()}>
+                        <Trash className="size-4 mr-2" />
                         Delete
                     </DropdownMenuItem>
                 </DropdownMenuContent>
