@@ -12,6 +12,7 @@ export const insertAccountSchema = createInsertSchema(accounts);
 //2:09:00 Add a new column (plaidId)
 // pnpm run db:generate
 // pnpm run db:migrate
+// pnpm run db:studio
 
 export const categories = pgTable("categories", {
   id: text("id").primaryKey(),

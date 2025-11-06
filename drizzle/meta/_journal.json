@@ -15,6 +15,13 @@
       "when": 1759449661356,
       "tag": "0001_clear_rhino",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762439415222,
+      "tag": "0002_flawless_spacker_dave",
+      "breakpoints": true
     }
   ]
 }
