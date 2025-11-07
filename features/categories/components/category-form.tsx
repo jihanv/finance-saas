@@ -40,7 +40,7 @@ export default function CategoryForm({ id, defaultValues, onSubmit, onDelete, di
 
     //Creates a form using react-hook-form that follows the FormValues type (so this form knows what fields it has)
     //Uses your Zod schema to validate the form
-    //Pre-fills the form (for example, when editing an existing account)
+    //Pre-fills the form (for example, when editing an existing category)
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: defaultValues ?? { name: "" }

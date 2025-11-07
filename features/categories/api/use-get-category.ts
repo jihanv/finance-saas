@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { client } from "@/lib/hono";
 
-// This is a **custom React hook** used to fetch an account from the server.
+// This is a **custom React hook** used to fetch an category from the server.
 export const useGetCategory = (id?: string) => {
   const query = useQuery({
     enabled: !!id,

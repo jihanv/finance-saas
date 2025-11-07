@@ -13,7 +13,7 @@ import Actions from "./actions"
 // Adding "200" is necessary to get only the data and not error messages 
 //["data"][0]
 // Then, ["data"] accesses the data field of that response(which is likely an array), and[0] takes the type of one element of that array.
-export type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0]
+export type ResponseType = InferResponseType<typeof client.api.categories.$get, 200>["data"][0]
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
