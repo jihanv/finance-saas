@@ -10,11 +10,6 @@ export const accounts = pgTable("accounts", {
   userId: text("user_id").notNull(),
 });
 
-// Create a relationship between accounts and transactions. One account can have many transactions.
-export const accountRelations = relations(accounts, ({ many }) => ({
-  transactions: many(transactions),
-}));
-
 export const insertAccountSchema = createInsertSchema(accounts);
 //2:09:00 Add a new column (plaidId)
 // pnpm run db:generate
@@ -27,10 +22,6 @@ export const categories = pgTable("categories", {
   name: text("name").notNull(),
   userId: text("user_id").notNull(),
 });
-// Create a relationship between categories and transactions. One category can have many transactions.
-export const categoriesRelations = relations(categories, ({ many }) => ({
-  transactions: many(transactions),
-}));
 
 export const insertCategoriesSchema = createInsertSchema(categories);
 
@@ -50,9 +41,22 @@ export const transactions = pgTable("transactions", {
   }),
 });
 
+export const insertTransactionSchema = createInsertSchema(transactions, {
+  date: z.coerce.date(),
+});
+
+// Create a relationship between categories and transactions. One category can have many transactions.
+export const categoriesRelations = relations(categories, ({ many }) => ({
+  transactions: many(transactions),
+}));
+// Create a relationship between accounts and transactions. One account can have many transactions.
+export const accountRelations = relations(accounts, ({ many }) => ({
+  transactions: many(transactions),
+}));
+
 export const transactionsRelations = relations(transactions, ({ one }) => ({
   category: one(categories, {
-    fields: [transactions.accountId],
+    fields: [transactions.categoryId],
     references: [categories.id],
   }),
   accounts: one(accounts, {
@@ -60,7 +64,3 @@ export const transactionsRelations = relations(transactions, ({ one }) => ({
     references: [accounts.id],
   }),
 }));
-
-export const insertTransactionSchema = createInsertSchema(transactions, {
-  date: z.coerce.date(),
-});
