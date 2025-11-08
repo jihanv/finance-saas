@@ -3,6 +3,7 @@ import { handle } from "hono/vercel";
 // import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import accounts from "./accounts";
 import categories from "./categories";
+import transactions from "./transactions";
 
 // Tell Next.js to use the Edge runtime for this route.
 // This gives you faster response times, but no Node.js APIs.
@@ -23,7 +24,8 @@ const app = new Hono().basePath("/api");
 // This means any route defined inside ./accounts will be prefixed with /api/accounts
 const routes = app
   .route("/accounts", accounts)
-  .route("/categories", categories);
+  .route("/categories", categories)
+  .route("/transactions", transactions);
 
 // Export the Hono handler for Vercel.
 // This single handler supports all HTTP methods (GET, POST, PUT, DELETE, etc.)
