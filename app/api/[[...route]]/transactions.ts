@@ -66,13 +66,13 @@ const app = new Hono()
         })
         .from(transactions)
         .innerJoin(accounts, eq(transactions.accountId, accounts.id))
-        .leftJoin(categories, eq(transactions.categoryId, categories.id))
+        .leftJoin(categories, eq(transactions.categoryId, categories.id)) //Keep all the transactions, and fill in category details only when they exist.
         .where(
           and(
-            accountId ? eq(transactions.accountId, accountId) : undefined,
-            eq(accounts.userId, auth.userId),
-            gte(transactions.date, startDate),
-            lte(transactions.date, endDate)
+            accountId ? eq(transactions.accountId, accountId) : undefined, //If the user gave me a specific account ID, only show that account’s transactions.If not, just skip that filter.
+            eq(accounts.userId, auth.userId), // only show transactions that belong to this user.
+            gte(transactions.date, startDate), // only include transactions that happened after or on the start date.
+            lte(transactions.date, endDate) // only include ones before or on the end date.
           )
         )
         .orderBy(desc(transactions.date));
@@ -139,12 +139,13 @@ const app = new Hono()
       }
 
       const data = await db
-        .insert(transactions)
+        .insert(transactions) //add something new to the transactions table
         .values({
-          id: createId(),
-          ...values,
+          //what data to put into that new row.
+          id: createId(), //makes a new unique ID (like “tx_abc123”) for the transaction.
+          ...values, //spreads in (copies over) the rest of the transaction data that came from the user’s form or API request.
         })
-        .returning();
+        .returning(); //After you insert the new row, give me back the data you just added.
 
       return c.json({ data: data[0] });
     }
@@ -155,7 +156,7 @@ const app = new Hono()
     zValidator(
       "json",
       z.object({
-        ids: z.array(z.string()),
+        ids: z.array(z.string()), //zValidator("json", z.object({ ids: z.array(z.string()) })): require a JSON body shaped like: { "ids": ["tx_1", "tx_2", "tx_3"] }
       })
     ),
     async (c) => {
@@ -166,46 +167,51 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
+      //saving is a “temporary list” of transaction IDs that we’re allowed to delete.
       const transactionsToDelete = db.$with("transactions_to_delete").as(
         db
           .select({ id: transactions.id })
           .from(transactions)
-          .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+          .innerJoin(accounts, eq(transactions.accountId, accounts.id)) //For each transaction, find its account by matching the transaction’s accountId to the account’s id.
           .where(
             and(
-              inArray(transactions.id, values.ids),
-              eq(accounts.userId, auth.userId)
+              inArray(transactions.id, values.ids), //Only keep transactions whose id is one of the ids the user sent in the request.”
+              eq(accounts.userId, auth.userId) //“Only keep transactions whose account owner is the currently logged-in user.”
             )
           )
       );
       const data = await db
-        .with(transactionsToDelete)
+        .with(transactionsToDelete) //load that list of safe IDs I made earlier.
         .delete(transactions)
         .where(
           inArray(
             transactions.id,
-            sql`(select id from ${transactionsToDelete})`
+            sql`(select id from ${transactionsToDelete})` //delete transactions where the transactions.id is inside transactionsToDelete list.
           )
         )
         .returning({
-          id: transactions.id,
+          id: transactions.id, //After you delete those rows, tell me which ones you deleted
         });
 
       return c.json({ data });
     }
   )
   .patch(
-    "/:id",
+    "/:id", //This handles requests like PATCH /api/transactions/tx_123. The :id part is the transaction id in the URL.
     clerkMiddleware(),
     zValidator(
+      //validate the URL path parameters (the :id in PATCH /transactions/:id). “id" must be a string if it exists, but it’s okay if it’s missing
       "param",
       z.object({
         id: z.string().optional(),
       })
     ),
     zValidator(
+      //make sure the incoming JSON body looks like a valid transaction. It is from a form.
+      // Zod will look at whatever the user sent in their request body and check that it matches the rules you’re about to describe.
       "json",
       insertTransactionSchema.omit({
+        //: you can update fields like date, payee, amount, notes, accountId, categoryId, etc., but not the primary key id.
         id: true,
       })
     ),
@@ -222,24 +228,30 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
+      // Make a one-row, temporary table containing this transaction’s id if and only if the user owns it. Otherwise that table is empty.
       const transactionsToupdate = db.$with("transactions_to_update").as(
         db
           .select({ id: transactions.id })
           .from(transactions)
-          .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+          .innerJoin(accounts, eq(transactions.accountId, accounts.id)) //for every transaction, this finds the account it belongs to.
           .where(and(eq(transactions.id, id), eq(accounts.userId, auth.userId)))
+        // eq(transactions.id, id) transaction whose id equals the one in the URL.
+        // eq(accounts.userId, auth.userId) ensures that the transaction is part of an account owned by user
       );
+
+      // update the transactions table, but only the rows whose IDs are in (transactions_to_update).”
       const [data] = await db
-        .with(transactionsToupdate)
+        .with(transactionsToupdate) // Include the temporary list I just defined (named transactions_to_update) in this database command, because I’m about to use it.
         .update(transactions)
-        .set(values)
+        .set(values) // values is the cleaned, validated JSON you accepted from the client (e.g., from a form). Apply these new values to the row(s) we end up targeting.
         .where(
           inArray(
+            // Only update the transaction if its transactions.id is in the safe list transactions_to_update
             transactions.id,
             sql`(select id from ${transactionsToupdate})`
           )
         )
-        .returning();
+        .returning(); //After you perform the update, give me back the row(s) you changed.
 
       if (!data) {
         return c.json({ error: "Not found" });
@@ -249,7 +261,7 @@ const app = new Hono()
     }
   )
   .delete(
-    "/:id",
+    "/:id", //This handles requests like PATCH /api/transactions/tx_123. The :id part is the transaction id in the URL.
     clerkMiddleware(),
     zValidator(
       "param",
