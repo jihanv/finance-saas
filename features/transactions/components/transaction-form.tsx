@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/form";
 import { Select } from '@/components/select';
 import { DatePicker } from '@/components/date-picker';
+import { Textarea } from '@/components/ui/textarea';
+import { AmountInput } from '@/components/amount-input';
 
 const formSchema = z.object({
     date: z.coerce.date(),
@@ -121,7 +123,7 @@ export default function TransactionForm({
                         render={({ field }) => (
                             <FormItem >
                                 <FormLabel>
-                                    Account
+                                    Category
                                 </FormLabel>
                                 <FormControl>
                                     <Select
@@ -131,6 +133,58 @@ export default function TransactionForm({
                                         value={field.value}
                                         onChange={field.onChange}
                                         disabled={disabled}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}>
+                    </FormField>
+                    <FormField
+                        name="payee"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem >
+                                <FormLabel>
+                                    Payee
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        disabled={disabled}
+                                        placeholder='Add a payee'
+                                        {...field}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}>
+                    </FormField>
+                    <FormField
+                        name="amount"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem >
+                                <FormLabel>
+                                    Amount
+                                </FormLabel>
+                                <FormControl>
+                                    <AmountInput
+                                        disabled={disabled}
+                                        placeholder='0.00'
+                                        {...field}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}>
+                    </FormField>
+                    <FormField
+                        name="notes"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem >
+                                <FormControl>
+                                    <Textarea
+                                        {...field}
+                                        value={field.value ?? ""}
+                                        disabled={disabled}
+                                        placeholder='Optional Notes'
                                     />
                                 </FormControl>
                             </FormItem>
