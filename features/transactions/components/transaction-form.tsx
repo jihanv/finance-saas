@@ -31,7 +31,7 @@ const formSchema = z.object({
     notes: z.string().optional().nullable()
 });
 
-const apiSchema = insertTransactionSchema.omit({
+export const apiSchema = insertTransactionSchema.omit({
     id: true
 })
 export type FormValues = z.input<typeof formSchema>

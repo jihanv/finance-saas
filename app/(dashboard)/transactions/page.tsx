@@ -13,9 +13,9 @@ import { useBulkDeleteTransactions } from '@/features/transactions/api/use-bulk-
 
 export default function TransactionsPage() {
 
-    const newTransactions = useNewTransaction()
-    const transactionsQuery = useGetTransactions() // fetches the list of existing transactions from the backend.
-    const transactions = transactionsQuery.data || [] // ensures your table always receives a valid array to render, even before the data is loaded.
+    const newTransaction = useNewTransaction()
+    const transactionsQuery = useGetTransactions()
+    const transactions = transactionsQuery.data || []
     const deleteTransactions = useBulkDeleteTransactions()
 
     const isDisabled = transactionsQuery.isLoading || deleteTransactions.isPending
@@ -42,7 +42,7 @@ export default function TransactionsPage() {
             <Card className='border-none drop-shadow-sm'>
                 <CardHeader className='gap-y-2 flex flex-col lg:flex-row lg:items-center lg:justify-between'>
                     <CardTitle className='text-xl line-clamp-1'>Transactions History</CardTitle>
-                    <Button onClick={newTransactions.onOpen} size="sm" className="w-full lg:w-auto">
+                    <Button onClick={newTransaction.onOpen} size="sm" className="w-full lg:w-auto">
                         <Plus className='size-4 mr-2' ></Plus>
                         Add new</Button>
                 </CardHeader>
@@ -50,7 +50,7 @@ export default function TransactionsPage() {
                     <DataTable
                         columns={columns}
                         data={transactions}
-                        filterKey="name"
+                        filterKey="date"
                         onDelete={(row) => {
                             const ids = row.map((r) => r.original.id)
                             deleteTransactions.mutate({ ids })
