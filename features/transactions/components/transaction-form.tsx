@@ -20,6 +20,7 @@ import { Select } from '@/components/select';
 import { DatePicker } from '@/components/date-picker';
 import { Textarea } from '@/components/ui/textarea';
 import { AmountInput } from '@/components/amount-input';
+import { convertAmountToMilliunits } from '@/lib/utils';
 
 const formSchema = z.object({
     date: z.coerce.date(),
@@ -67,8 +68,14 @@ export default function TransactionForm({
     })
 
     const handleSubmit = (values: FormValues) => {
-        // onSubmit(values)
+
         console.log(values)
+        const amount = parseFloat(values.amount)
+        const amountInMilliunits = convertAmountToMilliunits(amount)
+        onSubmit({
+            ...values,
+            amount: amountInMilliunits
+        })
     }
 
     const handleDelete = () => {
@@ -150,7 +157,9 @@ export default function TransactionForm({
                                     <Input
                                         disabled={disabled}
                                         placeholder='Add a payee'
+
                                         {...field}
+                                        value={field.value ?? ''}
                                     />
                                 </FormControl>
                             </FormItem>
