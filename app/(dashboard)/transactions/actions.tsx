@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useDeleteTransaction } from "@/features/transactions/api/use-delete-transaction"
 import useConfirm from "@/hooks/use-confirm"
-// import { useOpenTransaction } from "@/stores/useOpenTransaction"
+import { useOpenTransaction } from "@/stores/useOpenTransactionStore"
 import { Edit, MoreHorizontal, Trash } from "lucide-react"
 
 type Props = {
@@ -16,7 +16,7 @@ export default function Actions({ id }: Props) {
 
     const [ConfirmationDialog, confirm] = useConfirm("Are you sure?", "You are about to delete this transaction.")
 
-    // const { onOpen } = useOpenTransaction()
+    const { onOpen } = useOpenTransaction()
 
     const handleDelete = async () => {
         const ok = await confirm();
@@ -34,12 +34,12 @@ export default function Actions({ id }: Props) {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    {/* <DropdownMenuItem
+                    <DropdownMenuItem
                         disabled={deleteMutation.isPending}
                         onClick={() => onOpen(id)}>
                         <Edit className="size-4 mr-2" />
                         Edit
-                    </DropdownMenuItem> */}
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                         disabled={deleteMutation.isPending}
                         onClick={() => handleDelete()}>
