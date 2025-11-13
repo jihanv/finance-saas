@@ -3,7 +3,6 @@ import { useOpenAccount } from "@/stores/useOpenAccount";
 type Props = {
     account: string;
     accountId: string | null;
-
 }
 
 export const AccountColumn = ({
