@@ -9,7 +9,7 @@ import { ArrowUpDown } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import Actions from "./actions"
 import { format } from "date-fns"
-import { convertAmountFromMilliunits, formatCurrency } from "@/lib/utils"
+import { formatCurrency } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { AccountColumn } from "./account-column"
 import { CategoryColumn } from "./category-column"
@@ -77,7 +77,7 @@ export const columns: ColumnDef<ResponseType>[] = [
         },
         cell: ({ row }) => {
             return (
-                <CategoryColumn category={row.original.category} categoryId={row.original.categoryId} />
+                <CategoryColumn id={row.original.id} category={row.original.category} categoryId={row.original.categoryId} />
             )
         }
     },

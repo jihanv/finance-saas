@@ -2,7 +2,7 @@ import { useOpenAccount } from "@/stores/useOpenAccount";
 
 type Props = {
     account: string;
-    accountId: string | null;
+    accountId: string;
 }
 
 export const AccountColumn = ({
@@ -13,7 +13,7 @@ export const AccountColumn = ({
     const { onOpen: onOpenAccount } = useOpenAccount()
 
     const onClick = () => {
-        onOpenAccount(accountId!)
+        onOpenAccount(accountId)
     }
     return (
         <>
