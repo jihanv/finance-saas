@@ -10,6 +10,7 @@ import { columns } from './columns'
 import { DataTable } from '@/components/data-table'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useBulkDeleteTransactions } from '@/features/transactions/api/use-bulk-delete-transactions'
+import { UploadButton } from './upload-button'
 
 
 enum VARIANTS {
@@ -69,10 +70,7 @@ export default function TransactionsPage() {
                         <Plus className='size-4 mr-2' ></Plus>
                         Add new
                     </Button>
-                    <Button onClick={newTransaction.onOpen} size="sm" className="w-full lg:w-auto">
-                        <Plus className='size-4 mr-2' ></Plus>
-                        Upload Button
-                    </Button>
+                    <UploadButton onUpload={() => { }} />
                 </CardHeader>
                 <CardContent>
                     <DataTable
