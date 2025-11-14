@@ -30,6 +30,11 @@ export default function TransactionsPage() {
 
     const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST)
 
+    const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
+        setVariant(VARIANTS.IMPORT)
+
+    }
+
     const newTransaction = useNewTransaction()
     const transactionsQuery = useGetTransactions()
     const transactions = transactionsQuery.data || []
@@ -66,11 +71,13 @@ export default function TransactionsPage() {
             <Card className='border-none drop-shadow-sm'>
                 <CardHeader className='gap-y-2 flex flex-col lg:flex-row lg:items-center lg:justify-between'>
                     <CardTitle className='text-xl line-clamp-1'>Transactions History</CardTitle>
-                    <Button onClick={newTransaction.onOpen} size="sm" className="w-full lg:w-auto">
-                        <Plus className='size-4 mr-2' ></Plus>
-                        Add new
-                    </Button>
-                    <UploadButton onUpload={() => { }} />
+                    <div className='flex items-center gap-x-2'>
+                        <Button onClick={newTransaction.onOpen} size="sm" className="w-full lg:w-auto">
+                            <Plus className='size-4 mr-2' ></Plus>
+                            Add new
+                        </Button>
+                        <UploadButton onUpload={onUpload} />
+                    </div>
                 </CardHeader>
                 <CardContent>
                     <DataTable
