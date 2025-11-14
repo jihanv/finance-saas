@@ -6,6 +6,7 @@ const outputFormat = "yyyy-MM-dd";
 const requiredOptions = ["amount", "date", "payee"]
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import ImportTable from "./import-table";
 
 interface SelectedColumnsState {
     [key: string]: string | null
@@ -21,7 +22,7 @@ export default function ImportCard({ data, onCancel, onSubmit }: Props) {
 
     const [selectedColumns, setSelectedColumns] = useState<SelectedColumnsState>({})
 
-    const header = data[0]
+    const headers = data[0]
     const body = data.slice(1)
     return (
         <>
@@ -36,7 +37,7 @@ export default function ImportCard({ data, onCancel, onSubmit }: Props) {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        {/* <ImportTable headers={headers} body={body} selectedColumns={selectedColumns} onTableHeadSelectChange={()=> {}} /> */}
+                        <ImportTable headers={headers} body={body} selectedColumns={selectedColumns} onTableHeadSelectChange={() => { }} />
                     </CardContent>
                 </Card>
             </div>
