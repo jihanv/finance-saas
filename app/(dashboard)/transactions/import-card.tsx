@@ -24,6 +24,23 @@ export default function ImportCard({ data, onCancel, onSubmit }: Props) {
 
     const headers = data[0]
     const body = data.slice(1)
+
+    const onTableHeadSelectChange = (columnIndex: number, value: string | null) => {
+        setSelectedColumns((prev) => {
+            const newSelectedColumns = { ...prev }
+            for (const key in newSelectedColumns) {
+                if (newSelectedColumns[key] === value) {
+                    newSelectedColumns[key] = null
+                }
+            }
+            if (value === "skip") {
+                value = null
+            }
+
+            newSelectedColumns[`column_${columnIndex}`] = value
+            return newSelectedColumns
+        })
+    }
     return (
         <>
             <div className='max-w-screen-2xl mx-auto w-full pb-10 -mt-24'>
@@ -37,7 +54,7 @@ export default function ImportCard({ data, onCancel, onSubmit }: Props) {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <ImportTable headers={headers} body={body} selectedColumns={selectedColumns} onTableHeadSelectChange={() => { }} />
+                        <ImportTable headers={headers} body={body} selectedColumns={selectedColumns} onTableHeadSelectChange={onTableHeadSelectChange} />
                     </CardContent>
                 </Card>
             </div>

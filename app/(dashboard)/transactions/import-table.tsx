@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Table, TableBody, TableCell, TableHeader, TableRow, TableHead } from "@/components/ui/table"
 import { index } from 'drizzle-orm/gel-core';
+import TableHeadSelect from './table-head-select';
 
 type Props = {
     headers: string[];
@@ -19,7 +20,7 @@ export default function ImportTable({ headers, body, selectedColumns, onTableHea
                         <TableRow>
                             {headers.map((_, index) => (
                                 <TableHead key={index}>
-                                    {index}
+                                    <TableHeadSelect columnIndex={index} selectedColumns={selectedColumns} onChange={onTableHeadSelectChange} />
                                 </TableHead>
                             ))}
                         </TableRow>
