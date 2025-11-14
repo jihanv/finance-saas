@@ -11,6 +11,7 @@ import { DataTable } from '@/components/data-table'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useBulkDeleteTransactions } from '@/features/transactions/api/use-bulk-delete-transactions'
 import { UploadButton } from './upload-button'
+import ImportCard from './import-card'
 
 
 enum VARIANTS {
@@ -18,7 +19,7 @@ enum VARIANTS {
     IMPORT = "IMPORT"
 }
 
-const INITIAL_IMPORT_RESULTS = {
+export const INITIAL_IMPORT_RESULTS = {
     data: [],
     errors: [],
     meta: {
@@ -30,9 +31,16 @@ export default function TransactionsPage() {
 
     const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST)
 
-    const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
-        setVariant(VARIANTS.IMPORT)
+    const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS)
 
+    const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
+        setImportResults(results)
+        setVariant(VARIANTS.IMPORT)
+    }
+
+    const onCancelImport = () => {
+        setImportResults(INITIAL_IMPORT_RESULTS)
+        setVariant(VARIANTS.LIST)
     }
 
     const newTransaction = useNewTransaction()
@@ -63,7 +71,8 @@ export default function TransactionsPage() {
     if (variant === VARIANTS.IMPORT) {
         return (
             <>
-                <div>This is a screen for import</div></>
+                <ImportCard data={importResults.data} onCancel={onCancelImport} onSubmit={() => { }} />
+            </>
         )
     }
     return (
