@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 const dateFormat = "yyyy-MM-dd HH:mm:ss";
 const outputFormat = "yyyy-MM-dd";
@@ -41,16 +40,31 @@ export default function ImportCard({ data, onCancel, onSubmit }: Props) {
             return newSelectedColumns
         })
     }
+
+    const progress = Object.values(selectedColumns).filter(Boolean).length
+
     return (
         <>
             <div className='max-w-screen-2xl mx-auto w-full pb-10 -mt-24'>
                 <Card className='border-none drop-shadow-sm'>
                     <CardHeader className='gap-y-2 flex flex-col lg:flex-row lg:items-center lg:justify-between'>
                         <CardTitle className='text-xl line-clamp-1'>Import Transaction</CardTitle>
-                        <div className='flex items-center gap-x-2'>
-                            <Button onClick={onCancel} size="sm" className="w-full lg:w-auto">
+                        <div className='w-full flex flex-col lg:flex-row gap-y-2 items-center gap-x-2 lg:w-auto'>
+                            <Button
+                                onClick={onCancel}
+                                size="sm"
+                                className="w-full lg:w-auto">
                                 Cancel
                             </Button>
+                            <Button
+                                disabled={progress < requiredOptions.length}
+                                onClick={() => { }}
+                                size="sm"
+                                className="w-full lg:w-auto"
+                            >
+                                Continue ({progress} / {requiredOptions.length})
+                            </Button>
+
                         </div>
                     </CardHeader>
                     <CardContent>
