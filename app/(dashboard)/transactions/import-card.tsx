@@ -6,6 +6,8 @@ const requiredOptions = ["amount", "date", "payee"]
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import ImportTable from "./import-table";
+import { convertAmountToMilliunits } from "@/lib/utils";
+import { format, parse } from "date-fns";
 
 // This object can have any number of properties, and each property name must be a string. It needs to be dynamic because you don’t know how many CSV columns there are.
 interface SelectedColumnsState {
@@ -84,7 +86,13 @@ export default function ImportCard({ data, onCancel, onSubmit }: Props) {
                 return acc;
             }, {})
         })
-        console.log({ arrayofData })
+
+        const formattedData = arrayofData.map((item) => ({
+            ...item,
+            amount: convertAmountToMilliunits(parseFloat(item.amount)),
+            date: format(parse(item.date, dateFormat, new Date()), outputFormat)
+        }))
+
     }
 
     return (
