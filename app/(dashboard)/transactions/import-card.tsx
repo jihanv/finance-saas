@@ -93,6 +93,7 @@ export default function ImportCard({ data, onCancel, onSubmit }: Props) {
             date: format(parse(item.date, dateFormat, new Date()), outputFormat)
         }))
 
+        onSubmit(formattedData)
     }
 
     return (
