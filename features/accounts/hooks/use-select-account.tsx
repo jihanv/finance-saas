@@ -24,7 +24,7 @@ export default function useSelectAccount()
 
     const selectValue = useRef<string>(undefined)
 
-    const confirm = () => new Promise((resolve, reject) => {
+    const confirm = () => new Promise((resolve) => {
         setPromise({ resolve })
     })
     const handleClose = () => {

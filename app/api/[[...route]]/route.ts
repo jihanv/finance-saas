@@ -4,6 +4,7 @@ import { handle } from "hono/vercel";
 import accounts from "./accounts";
 import categories from "./categories";
 import transactions from "./transactions";
+import summary from "./summary";
 
 // Tell Next.js to use the Edge runtime for this route.
 // This gives you faster response times, but no Node.js APIs.
@@ -25,7 +26,8 @@ const app = new Hono().basePath("/api");
 const routes = app
   .route("/accounts", accounts)
   .route("/categories", categories)
-  .route("/transactions", transactions);
+  .route("/transactions", transactions)
+  .route("/summary", summary);
 
 // Export the Hono handler for Vercel.
 // This single handler supports all HTTP methods (GET, POST, PUT, DELETE, etc.)

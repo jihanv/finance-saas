@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Table, TableBody, TableCell, TableHeader, TableRow, TableHead } from "@/components/ui/table"
-import { index } from 'drizzle-orm/gel-core';
+// import { index } from 'drizzle-orm/gel-core';
 import TableHeadSelect from './table-head-select';
 
 type Props = {
