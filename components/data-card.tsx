@@ -1,4 +1,4 @@
-import { cn, formatCurrency } from "@/lib/utils"
+import { cn, formatCurrency, formatPercentage } from "@/lib/utils"
 import { VariantProps, cva } from "class-variance-authority"
 import { IconType } from "react-icons"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
@@ -79,10 +79,12 @@ export default function DataCard({ icon: Icon, title, value = 0, variant, dateRa
                             formattingFn={formatCurrency}
                         />
                     </h1>
-                    <p>
-                        {
-
-                        }
+                    <p className={cn(
+                        "text-muted-foreground text-sm line-clamp-1",
+                        percentageChange > 0 && "text-emerald-500",
+                        percentageChange < 0 && "text-rose-500",
+                    )}>
+                        {formatPercentage(percentageChange)} from last period
                     </p>
                 </CardContent>
             </Card>
