@@ -85,7 +85,7 @@ export default function DataCard({ icon: Icon, title, value = 0, variant, dateRa
                         percentageChange > 0 && "text-emerald-500",
                         percentageChange < 0 && "text-rose-500",
                     )}>
-                        {formatPercentage(percentageChange)} from last period
+                        {formatPercentage(percentageChange, { addPrefix: true })} from last period
                     </p>
                 </CardContent>
             </Card>
