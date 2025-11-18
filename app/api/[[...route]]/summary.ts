@@ -2,7 +2,13 @@ import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import z from "zod";
-import { subDays, parse, differenceInDays } from "date-fns";
+import {
+  subDays,
+  parse,
+  differenceInDays,
+  startOfDay,
+  endOfDay,
+} from "date-fns";
 import { db } from "@/db/drizzle";
 import { and, desc, eq, gte, lt, lte, sql, sum } from "drizzle-orm";
 import { accounts, categories, transactions } from "@/db/schema";
@@ -159,16 +165,24 @@ const app = new Hono().get(
       .groupBy(transactions.date)
       .orderBy(transactions.date);
 
-    const days = fillMissingDays(activeDays, startDate, endDate);
+    const days = fillMissingDays(
+      activeDays,
+      startOfDay(startDate),
+      endOfDay(endDate)
+    );
 
+    console.log(startOfDay(startDate));
     return c.json({
-      currentPeriod,
-      lastPeriod,
-      incomeChange,
-      expensesChange,
-      remaining,
-      finalCategories,
-      days,
+      data: {
+        remainingAmount: currentPeriod.remaining,
+        remaining,
+        incomeAmount: currentPeriod.income,
+        incomeChange,
+        expensesAmount: currentPeriod.expenses,
+        expensesChange,
+        categories: finalCategories,
+        days,
+      },
     });
   }
 );
