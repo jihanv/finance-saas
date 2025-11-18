@@ -6,7 +6,7 @@ import { drizzle } from "drizzle-orm/neon-http";
 import { eachDayOfInterval, format } from "date-fns";
 import { convertAmountToMilliunits } from "@/lib/utils";
 
-config({ path: ".env.local" });
+config({ path: ".env" });
 
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql);
