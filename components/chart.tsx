@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FileSearch } from "lucide-react";
 import AreaVariant from "./area-variant";
+import BarVariant from "./bar-variant";
 
 type Props = {
     data?: {
@@ -25,7 +26,10 @@ export default function Chart({ data = [] }: Props) {
                             <p className="text-muted-foreground text-sm">No data for this period</p>
                         </div>)
                         : (
-                            <AreaVariant data={data} />
+                            <>
+                                <AreaVariant data={data} />
+                                <BarVariant data={data} />
+                            </>
                         )}
                 </CardContent>
             </Card>
