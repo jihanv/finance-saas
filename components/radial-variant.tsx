@@ -1,6 +1,6 @@
-import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts"
+import { RadialBar, Legend, RadialBarChart, ResponsiveContainer, Tooltip } from "recharts"
 
-import { formatPercentage } from "@/lib/utils"
+import { formatCurrency } from "@/lib/utils"
 import CategoryTooltip from "./category-tooltip";
 
 type Props = {
@@ -13,12 +13,33 @@ type Props = {
 
 const COLORS = ["#0062FF", "#12C6FF", "#FF647F", "#FF9354"]
 
-export default function PieVariant({ data }: Props) {
+export default function RadialVariant({ data }: Props) {
 
     return (
         <>
             <ResponsiveContainer width="100%" height={350}>
-                <PieChart>
+                <RadialBarChart
+                    cx="50%"
+                    cy="30%"
+                    barSize={10}
+                    innerRadius="90%"
+                    outerRadius="40%"
+                    data={
+                        data.map((item, index) => ({
+                            ...item,
+                            fil: COLORS[index % COLORS.length]
+                        }))
+                    }
+                >
+                    <RadialBar
+                        label={{
+                            position: "insideStart",
+                            fill: "#fff",
+                            fontSize: "12px"
+                        }}
+                        background
+                        dataKey="value"
+                    />
                     <Legend
                         layout="horizontal"
                         verticalAlign="bottom"
@@ -35,8 +56,6 @@ export default function PieVariant({ data }: Props) {
 
                                 <ul className="flex flex-col space-y-2">
                                     {payload.map((entry: any, index: number) => {
-                                        const value = Number(entry.payload.value || 0)
-                                        const percent = total === 0 ? 0 : (value / total) * 100
                                         return (
                                             <li
                                                 key={`item-${index}`}
@@ -50,8 +69,7 @@ export default function PieVariant({ data }: Props) {
                                                         {entry.value}
                                                     </span>
 
-                                                    <span>{formatPercentage(percent)}</span>
-                                                    {/* <span>{entry.payload.value}</span> */}
+                                                    <span>{formatCurrency(entry.payload.value)}</span>
                                                 </div>
                                             </li>
                                         )
@@ -61,24 +79,7 @@ export default function PieVariant({ data }: Props) {
                         }}
                     />
                     <Tooltip content={<CategoryTooltip />} />
-                    <Pie
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={90}
-                        innerRadius={60}
-                        paddingAngle={2}
-                        fill="#8884d8"
-                        dataKey="value"
-                        labelLine={false}
-                    >
-                        {data.map((_entry, index) => (
-                            <Cell
-                                key={`cell-${index}`}
-                                fill={COLORS[index % COLORS.length]} />
-                        ))}
-                    </Pie>
-                </PieChart>
+                </RadialBarChart>
             </ResponsiveContainer>
         </>
     )
