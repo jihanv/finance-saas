@@ -26,13 +26,17 @@ export default function LineVariant({ data }: Props) {
                     />
                     <Tooltip content={<CustomTooltip />} />
                     <Line
+                        dot={false}
                         dataKey="income"
-                        fill="#3b82f6"
+                        stroke="#3b82f6"
+                        strokeWidth={2}
                         className="drop-shadow-sm"
                     />
                     <Line
+                        dot={false}
                         dataKey="expenses"
-                        fill="#f43f5e"
+                        stroke="#f43f5e"
+                        strokeWidth={2}
                         className="drop-shadow-sm"
                     />
                 </LineChart>
