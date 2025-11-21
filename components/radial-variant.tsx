@@ -1,7 +1,6 @@
-import { RadialBar, Legend, RadialBarChart, ResponsiveContainer, Tooltip } from "recharts"
+import { RadialBar, Legend, RadialBarChart, ResponsiveContainer } from "recharts"
 
 import { formatCurrency } from "@/lib/utils"
-import CategoryTooltip from "./category-tooltip";
 
 type Props = {
     data: {
@@ -27,7 +26,7 @@ export default function RadialVariant({ data }: Props) {
                     data={
                         data.map((item, index) => ({
                             ...item,
-                            fil: COLORS[index % COLORS.length]
+                            fill: COLORS[index % COLORS.length]
                         }))
                     }
                 >
@@ -78,7 +77,6 @@ export default function RadialVariant({ data }: Props) {
                             )
                         }}
                     />
-                    <Tooltip content={<CategoryTooltip />} />
                 </RadialBarChart>
             </ResponsiveContainer>
         </>
