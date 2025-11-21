@@ -1,6 +1,7 @@
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts"
 
 import { formatPercentage } from "@/lib/utils"
+import CategoryTooltip from "./category-tooltip";
 
 type Props = {
     data: {
@@ -58,6 +59,7 @@ export default function PieVariant({ data }: Props) {
                             )
                         }}
                     />
+                    <Tooltip content={<CategoryTooltip />} />
                     <Pie
                         data={data}
                         cx="50%"
