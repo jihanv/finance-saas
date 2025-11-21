@@ -4,6 +4,7 @@ import { FileSearch, PieChart, Radar, Target } from "lucide-react";
 import { useState } from "react";
 import { Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from "@/components/ui/select"
 import PieVariant from "./pie-variant";
+import RadarVariant from "./radar-variant";
 
 
 type Props = {
@@ -66,8 +67,8 @@ export default function SpendingPie({ data = [] }: Props) {
                         : (
                             <>
                                 {chartType === "pie" && <PieVariant data={data} />}
-                                {/* {chartType === "radar" && <AreaVariant data={data} />}
-                                {chartType === "radial" && <BarVariant data={data} />} */}
+                                {chartType === "radar" && <RadarVariant data={data} />}
+                                {/* {chartType === "radial" && <BarVariant data={data} />} */}
                             </>
                         )}
                 </CardContent>
