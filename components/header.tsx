@@ -3,6 +3,7 @@ import HeaderLogo from "./header-logo";
 import Navigation from "./navigation";
 import { Loader2 } from "lucide-react";
 import WelcomeMsg from "./welcome-msg";
+import Filters from "./filters";
 
 export default function Header() {
     return (
@@ -17,6 +18,7 @@ export default function Header() {
                     <ClerkLoading><Loader2 className="size-8 animate-spin text-slate-400" /></ClerkLoading>
                 </div>
                 <WelcomeMsg />
+                <Filters />
             </div>
         </header>
     );
