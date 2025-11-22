@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
+import { useGetSummary } from "@/features/summary/api/use-get-summary";
 
 import qs from "query-string";
 
@@ -23,6 +24,8 @@ export default function AccountFilter() {
     const to = params.get("to") || ""
     const from = params.get("from") || ""
 
+
+    const { isLoading: isLoadingSummary } = useGetSummary()
 
     const onChange = (newValue: string) => {
         const query = {
@@ -44,7 +47,7 @@ export default function AccountFilter() {
     }
     return (
         <>
-            <Select defaultValue={accountID} onValueChange={onChange} disabled={isLoadingAccounts}>
+            <Select defaultValue={accountID} onValueChange={onChange} disabled={isLoadingAccounts || isLoadingSummary}>
                 <SelectTrigger
                     className="text-black bg-white"
                 >
