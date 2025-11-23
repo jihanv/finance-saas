@@ -4,12 +4,11 @@ import { useState } from 'react'
 import { format, subDays } from "date-fns"
 import { DateRange } from "react-day-picker"
 import { ChevronDown } from "lucide-react"
-import { useGetSummary } from "@/features/summary/api/use-get-summary";
 import qs from "query-string";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { cn, formatDateRange } from '@/lib/utils'
+import { formatDateRange } from '@/lib/utils'
 import { Button } from './ui/button'
 import { Calendar } from './ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger, PopoverClose } from "@/components/ui/popover"
@@ -60,12 +59,15 @@ export default function DateFilter() {
                         disabled={false}
                         size="sm"
                         variant="outline"
+                        className="lg:w-auto w-full h-9 rounded-md px-3 font-normal bg-white/10 
+            hover:bg-white/20 hover:text-white border-none focus:ring-offset-0
+            focus:ring-transparent outline-none text-white focus:bg-white/30 transition"
                     >
                         <span>{formatDateRange(paramState)}</span>
                         <ChevronDown className='ml-2 size-4 opacity-50' />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className='lg:auto w-full p-0' align="start">
+                <PopoverContent className='lg:w-auto w-full p-0' align="start">
                     <Calendar
                         disabled={false}
                         autoFocus
@@ -75,12 +77,12 @@ export default function DateFilter() {
                         onSelect={setDate}
                         numberOfMonths={2}
                     />
-                    <div className='p-4 w-full flex flex-col items-center gap-x-2'>
+                    <div className='p-4 flex w-full items-center gap-x-2'>
                         <PopoverClose asChild>
                             <Button
                                 onClick={onReset}
                                 disabled={!date?.from || !date?.to}
-                                className='w-full'
+                                className='flex-1'
                                 variant="outline"
                             >
                                 Reset
@@ -90,7 +92,7 @@ export default function DateFilter() {
                             <Button
                                 onClick={() => pushToUrl(date)}
                                 disabled={!date?.from || !date?.to}
-                                className='w-full'
+                                className='flex-1'
                             >
                                 Apply
                             </Button>

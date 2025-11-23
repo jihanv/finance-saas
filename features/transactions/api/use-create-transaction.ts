@@ -23,6 +23,7 @@ export const useCreateTransaction = () => {
 
       // Refetch all transactions and update the cache data
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["summary"] });
     },
     onError: () => {
       toast.error("Failed to create transaction");
